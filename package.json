@@ -1,0 +1,21 @@
+{
+  "name": "edenvault",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node edenVault.js",
+    "viewdb": "node edenVaultView.js",
+    "testRequest": "node testRequest.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "mqtt": "^5.10.1",
+    "node-cron": "^3.0.3",
+    "querystring": "^0.2.1",
+    "sqlite3": "^5.1.7"
+  }
+}
