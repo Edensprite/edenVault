@@ -85,8 +85,6 @@ cron.schedule('* * * * *', async () => {
 			const hubInfo = { "hubIp": "192.168.1.123", "hubPort": 1883 };
 			const edenVaultMessage = rows;
 
-			console.log("Sending data to edensmart", edenVaultMessage, hubInfo);
-
 			await axios.post(
 				`https://partners.edensmart.co.uk:9984/API.php?rtype=admin.IOT&act=updateAccountWithEdenVaultMessage&userId=11&writeToken=MQKJbXoFaiAMS2eKxck20nFwLgfQiM2q`,
 				qs.stringify({ edenVaultMessage: JSON.stringify(rows), hubInfo: JSON.stringify(hubInfo) }),
