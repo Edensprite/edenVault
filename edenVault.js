@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const https = require("https");
 const qs = require('querystring');
+const {exec} = require('child_process');
 
 // Define paths to SSL files
 const certPath = path.join(__dirname, 'ssl', 'edensmart-c1.pem');
