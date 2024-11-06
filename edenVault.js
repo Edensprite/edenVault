@@ -26,11 +26,11 @@ const db = new sqlite3.Database('./history.db', (err) => {
 		console.log('Connected to SQLite database');
 		db.run(
 			`CREATE TABLE IF NOT EXISTS messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        topic TEXT,
-        message TEXT,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-      )`
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				topic TEXT,
+				message TEXT,
+				timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+			)`
 		);
 	}
 });
@@ -66,7 +66,10 @@ mqttClient.on('message', (topic, message) => {
 
 // Daily Job to Send Data and Clear Local Database
 cron.schedule('* * * * *', async () => {
-	checkForUpdates();
+	const updateAvailable = await checkForUpdates();
+	if (updateAvailable) {
+		await updateAndRestart();
+	}
 
 	console.log('Running daily task to send data and clear local database');
 
@@ -149,3 +152,27 @@ async function checkForUpdates() {
     return false;
   }
 }
+
+async function updateAndRestart() {
+	try {
+	  console.log('Pulling latest code from GitHub');
+	  exec('git pull', (err, stdout, stderr) => {
+		if (err) {
+		  console.error('Failed to update code', err);
+		  return;
+		}
+		console.log('Code updated successfully, restarting...');
+  
+		// Restart the script
+		exec(`node ${__filename}`, (err) => {
+		  if (err) {
+			console.error('Failed to restart script', err);
+		  }
+		  process.exit(0); // Exit old process
+		});
+	  });
+	} catch (error) {
+	  console.error('Error updating and restarting', error);
+	}
+  }
+  
