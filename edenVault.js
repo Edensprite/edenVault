@@ -66,7 +66,7 @@ mqttClient.on('message', (topic, message) => {
 });
 
 // Daily Job to Send Data and Clear Local Database
-cron.schedule('* * * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
 	const updateAvailable = await checkForUpdates();
 	if (updateAvailable) {
 		await updateAndRestart();
